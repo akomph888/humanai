@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Human-AI Collaboration Self Evaluation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Modern SaaS Color Palette */
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #94a3b8;
+      --border: #e2e8f0;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --success: #10b981;
+      --success-bg: #d1fae5;
+      --warning: #f59e0b;
+      --warning-bg: #fef3c7;
+      --danger: #ef4444;
+      --danger-bg: #fee2e2;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      font-family: 'Noto Sans Thai', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    /* Top Navigation Bar */
+    .app-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    .app-header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 16px;
+    }
+    
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), #818cf8);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    /* Progress Tracker */
+    .progress-tracker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .progress-tracker-bar {
+      width: 120px;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-tracker-fill {
+      height: 100%;
+      background: var(--success);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* Cards */
+    .hero, .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.3s ease;
+    }
+    .hero:hover, .card:hover { box-shadow: var(--shadow-md); }
+    
+    .hero {
+      padding: 32px;
+      margin-bottom: 24px;
+      text-align: center;
+      background: linear-gradient(to bottom, #ffffff, var(--bg));
+    }
+    .card {
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    /* Typography */
+    h1, h2, h3 { margin: 0 0 12px; font-weight: 700; letter-spacing: -0.02em; }
+    h1 { font-size: 28px; color: var(--text-primary); }
+    h2 { font-size: 20px; border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;}
+    h3 { font-size: 16px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em;}
+    p { color: var(--text-secondary); margin-top: 0; }
+    .muted { color: var(--text-secondary); }
+
+    /* Forms & Inputs */
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+      text-align: left;
+    }
+    
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    input[type="text"], input[type="email"], select, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    /* Question Scale (1-5) */
+    .q {
+      padding: 20px 16px;
+      margin: 0 -16px;
+      border-bottom: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: background-color 0.3s ease;
+    }
+    .q.error {
+      background-color: var(--danger-bg);
+      border-left: 4px solid var(--danger);
+    }
+    .q:last-child { border-bottom: none; }
+    
+    .q-title {
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .scale {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      max-width: 500px;
+    }
+    
+    .scale label {
+      position: relative;
+      margin: 0;
+      cursor: pointer;
+    }
+    
+    .scale input { display: none; }
+    
+    .scale label span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--text-secondary);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scale label:hover span {
+      border-color: var(--primary-light);
+      background: var(--bg);
+      color: var(--primary);
+    }
+
+    .scale input:checked + span {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    /* Badges & Pills */
+    .dim-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .dim-title h2 { border: none; padding: 0; margin: 0; }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--primary-hover);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* Buttons */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    
+    button {
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    button:active { transform: translateY(1px); }
+    
+    .primary { 
+      background: var(--primary); 
+      color: white; 
+      box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+    }
+    .primary:hover { background: var(--primary-hover); box-shadow: 0 6px 8px -1px rgba(79, 70, 229, 0.3); }
+    
+    .secondary { 
+      background: var(--primary-light); 
+      color: var(--primary-hover); 
+    }
+    .secondary:hover { background: #c7d2fe; }
+    
+    .ghost { 
+      background: transparent; 
+      color: var(--text-secondary); 
+      border: 1px solid var(--border);
+    }
+    .ghost:hover { background: var(--bg); color: var(--text-primary); border-color: #cbd5e1; }
+
+    /* Dashboard & Reports */
+    #reportSection {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    
+    .kpi {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .kpi::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--border);
+    }
+    .kpi.primary-kpi::before { background: var(--primary); }
+    .kpi.success-kpi::before { background: var(--success); }
+    
+    .kpi .value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 8px;
+      line-height: 1.2;
+    }
+
+    /* Progress Bars */
+    .bars {
+      margin-top: 24px;
+      display: grid;
+      gap: 16px;
+    }
+    
+    .bar-wrap {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      background: var(--bg);
+    }
+    
+    .bar-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .bar {
+      width: 100%;
+      height: 8px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .bar > div {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #4f46e5);
+      width: 0%;
+      border-radius: 10px;
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Tags/Pills */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 4px 8px 8px 0;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .good { background: var(--success-bg); color: #065f46; border: 1px solid #a7f3d0; }
+    .warn { background: var(--warning-bg); color: #92400e; border: 1px solid #fde68a; }
+    .bad { background: var(--danger-bg); color: #991b1b; border: 1px solid #fecaca; }
+
+    .small { font-size: 13px; }
+    
+    .footer-note { 
+      margin-top: 16px; 
+      font-size: 13px; 
+      color: var(--text-tertiary); 
+      text-align: center;
+    }
+
+    .rec-item {
+      margin-bottom: 12px;
+      padding-left: 16px;
+      border-left: 3px solid var(--primary-light);
+    }
+    .rec-item strong { color: var(--text-primary); }
+
+    /* Toast Notification */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 1000;
+    }
+    .toast {
+      background: var(--text-primary);
+      color: white;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .toast.error { background: var(--danger); }
+    .toast.success { background: var(--success); }
+
+    /* Print Styles */
+    @media print {
+      .no-print, .app-header { display: none !important; }
+      body { background: #fff; color: #000; }
+      .container { padding: 0; max-width: 100%; }
+      .hero, .card, .kpi, .bar-wrap {
+        box-shadow: none !important;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+      }
+      .scale input:checked + span {
+        background: #000 !important;
+        color: #fff !important;
+        border-color: #000 !important;
+      }
+      .bar > div { background: #000 !important; }
+    }
+    
+    /* Mobile Adjustments */
+    @media (max-width: 600px) {
+      .scale { gap: 6px; }
+      .scale label span { height: 38px; font-size: 14px; }
+      .hero { padding: 24px 16px; }
+      .card { padding: 20px 16px; }
+      .actions { flex-direction: column; }
+      button { width: 100%; }
+      .app-header-inner { padding: 0 16px; }
+      .progress-tracker-bar { width: 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        AI Readiness Center
+      </div>
+      <div class="progress-tracker">
+        <span id="progressText">0/25</span>
+        <div class="progress-tracker-bar">
+          <div id="progressFill" class="progress-tracker-fill"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <section class="hero">
+      <h1>แบบประเมินระดับองค์กร: Human-AI Collaboration</h1>
+      <p>
+        เครื่องมือสำหรับประเมินศักยภาพการประยุกต์ใช้ AI ในการทำงาน 5 มิติ (รวม 25 ข้อ) <br>
+        ใช้เวลาทำประมาณ 5 นาที ระบบจะวิเคราะห์ผลและสร้างรายงานสำหรับพัฒนาตนเองทันที
+      </p>
+
+      <div class="meta card" style="margin-bottom: 0; background: var(--bg); border: none;">
+        <div>
+          <label for="fullName">ชื่อ-นามสกุล (Name)</label>
+          <input id="fullName" type="text" placeholder="ระบุชื่อ-นามสกุล" />
+        </div>
+        <div>
+          <label for="department">หน่วยงาน / สังกัด (Department)</label>
+          <input id="department" type="text" placeholder="ระบุหน่วยงาน" />
+        </div>
+        <div>
+          <label for="role">ตำแหน่ง / บทบาท (Role)</label>
+          <input id="role" type="text" placeholder="ระบุตำแหน่ง" />
+        </div>
+        <div>
+          <label for="evalDate">วันที่ประเมิน (Date)</label>
+          <input id="evalDate" type="text" readonly style="background: var(--border); color: var(--text-secondary); cursor: not-allowed;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Scoring Guide -->
+    <section class="card bg-light" style="background: var(--surface);">
+      <h3>คำอธิบายระดับคะแนน (Scoring Guide)</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; font-size: 14px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span class="badge" style="background:var(--border); color:var(--text-primary)">1</span> แทบไม่เคยใช้ / ไม่มีความรู้
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span class="badge" style="background:var(--border); color:var(--text-primary)">2</span> เริ่มทดลองใช้งานบ้าง
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span class="badge" style="background:var(--primary-light); color:var(--primary-hover)">3</span> ใช้งานได้อย่างสม่ำเสมอ
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span class="badge" style="background:var(--primary-light); color:var(--primary-hover)">4</span> ประยุกต์ใช้อย่างเป็นระบบ
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span class="badge" style="background:var(--primary); color:#fff">5</span> เชี่ยวชาญและออกแบบระบบได้
+        </div>
+      </div>
+    </section>
+
+    <form id="assessmentForm"></form>
+
+    <section class="card no-print">
+      <div class="actions">
+        <button type="button" class="primary" onclick="calculateReport()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+          ประมวลผลและสร้างรายงาน
+        </button>
+        <button type="button" class="secondary" onclick="saveLocal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          บันทึกแบบร่าง (Draft)
+        </button>
+        <button type="button" class="ghost" onclick="loadLocal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+          โหลดข้อมูลที่บันทึกไว้
+        </button>
+        <button type="button" class="ghost" onclick="window.print()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          พิมพ์ / Save PDF
+        </button>
+        <button type="button" class="ghost" onclick="resetForm()" style="color: var(--danger); border-color: var(--danger-bg); margin-left: auto;">
+          ล้างข้อมูลทั้งหมด
+        </button>
+      </div>
+      <div class="footer-note">
+        🔒 ข้อมูลทั้งหมดจะถูกประมวลผลและจัดเก็บอยู่ภายในเบราว์เซอร์ของท่านเท่านั้น ปลอดภัยตามมาตรฐาน Privacy-First
+      </div>
+    </section>
+
+    <section id="reportSection" class="card" style="display:none">
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 24px;">
+        <h2 style="border: none; padding: 0; margin: 0;">รายงานผลการประเมิน (Assessment Report)</h2>
+        <span class="badge" style="background: var(--success-bg); color: var(--success);">ประมวลผลสำเร็จ</span>
+      </div>
+      
+      <p id="reportIntro" class="muted" style="margin-bottom: 24px; font-weight: 500;"></p>
+
+      <div class="report-grid">
+        <div class="kpi primary-kpi">
+          <div class="muted">คะแนนรวม (Total Score)</div>
+          <div id="totalScore" class="value">0 / 125</div>
+        </div>
+        <div class="kpi">
+          <div class="muted">คะแนนเฉลี่ย (Average)</div>
+          <div id="avgScore" class="value" style="color: var(--text-primary);">0.00 <span style="font-size: 16px; color: var(--text-tertiary); font-weight: 500;">/ 5</span></div>
+        </div>
+        <div class="kpi success-kpi" style="background: var(--primary-light); border-color: var(--primary-light);">
+          <div class="muted" style="color: var(--primary-hover);">ระดับความพร้อม (Maturity Level)</div>
+          <div id="maturityLevel" class="value" style="font-size: 20px; color: var(--primary); margin-top: 12px;">-</div>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 36px; display: flex; align-items: center; gap: 8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
+        คะแนนแยกตามมิติ (Dimension Scores)
+      </h3>
+      <div class="bars" id="dimensionBars"></div>
+
+      <div class="report-grid" style="margin-top: 32px;">
+        <div class="kpi" style="border-top: 4px solid var(--success);">
+          <h3>จุดแข็ง (Strengths)</h3>
+          <p class="small muted" style="margin-top: -8px; margin-bottom: 12px;">มิติที่มีคะแนนเฉลี่ย 4.0 ขึ้นไป</p>
+          <div id="strengths"></div>
+        </div>
+        <div class="kpi" style="border-top: 4px solid var(--warning);">
+          <h3>โอกาสในการพัฒนา (Areas for Improvement)</h3>
+          <p class="small muted" style="margin-top: -8px; margin-bottom: 12px;">มิติที่มีคะแนนเฉลี่ยน้อยกว่า 3.5</p>
+          <div id="gaps"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 24px; background: #f8fafc; box-shadow: none; border-color: var(--primary-light);">
+        <h3 style="color: var(--primary-hover);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          คำแนะนำเฉพาะบุคคล (Actionable Recommendations)
+        </h3>
+        <div id="recommendations" style="margin-top: 16px;"></div>
+      </div>
+
+      <div class="card no-print" style="margin-top: 24px; border-style: dashed;">
+        <h3>บทสรุปผู้บริหาร (Executive Summary)</h3>
+        <p class="small muted">สามารถคัดลอกข้อความด้านล่างเพื่อนำไปวางในเอกสารหรืออีเมลได้ทันที</p>
+        <textarea id="summaryText" rows="12" style="font-family: monospace; font-size: 13px; line-height: 1.5; resize: vertical;" readonly></textarea>
+      </div>
+    </section>
+
+    <!-- App Footer -->
+    <footer style="text-align: center; padding: 32px 0 16px; margin-top: 32px; border-top: 1px dashed var(--border); color: var(--text-tertiary); font-size: 14px; line-height: 1.6;">
+      <div style="font-weight: 600; color: var(--text-secondary); letter-spacing: 0.02em;">Developed by SNC AI Lab Center</div>
+      <div style="font-size: 13px; margin-top: 2px;">by Akom Phosuwan, PhD, RN</div>
+    </footer>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script>
+    const dimensions = [
+      {
+        key: "prompt",
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
+        title: "มิติ 1: Interaction & Prompt Engineering",
+        short: "Prompt Engineering",
+        questions: [
+          "ฉันใช้ AI เพื่อช่วยคิด สรุป แปล หรือค้นหาคำตอบในงานประจำ",
+          "ฉันสามารถเขียน prompt ให้ชัดเจน โดยระบุเป้าหมาย บริบท และรูปแบบผลลัพธ์ที่ต้องการ",
+          "ฉันใช้ prompt template หรือรูปแบบคำสั่งเดิมซ้ำเพื่อให้ผลลัพธ์มีคุณภาพสม่ำเสมอ",
+          "ฉันสามารถปรับ prompt แบบ iterative เพื่อให้ AI ให้คำตอบดีขึ้น",
+          "ฉันรู้วิธีแบ่งงานยากให้เป็นขั้นตอนย่อยก่อนส่งให้ AI ทำงาน"
+        ]
+      },
+      {
+        key: "tools",
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>',
+        title: "มิติ 2: Tool, Data & Workflow Integration",
+        short: "Workflow Integration",
+        questions: [
+          "ฉันใช้ AI ร่วมกับเอกสาร ไฟล์ หรือข้อมูลจริงในการทำงาน",
+          "ฉันใช้ AI ร่วมกับเครื่องมืออื่น เช่น search, spreadsheet, docs, automation tools หรือระบบองค์กร",
+          "ฉันสามารถเตรียมข้อมูลหรือ context ให้ AI ใช้ได้อย่างเหมาะสม",
+          "ฉันมี workflow ที่ใช้ AI ซ้ำได้ ไม่ใช่ใช้งานแบบ ad hoc อย่างเดียว",
+          "ฉันสามารถเลือกได้ว่างานไหนควรใช้ AI chat-only และงานไหนควรเชื่อม data/tools เพิ่ม"
+        ]
+      },
+      {
+        key: "autonomy",
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>',
+        title: "มิติ 3: Autonomy & Delegation",
+        short: "Delegation",
+        questions: [
+          "ฉันมอบหมายงานบางส่วนให้ AI ทำแทนได้ เช่น ร่างเอกสาร วิเคราะห์เบื้องต้น หรือจัดโครงสร้างงาน",
+          "ฉันใช้ AI ให้ช่วยเสนอ next steps หรือแผนการทำงานได้",
+          "ฉันสามารถให้ AI ทำงานหลายขั้นตอนต่อเนื่องภายใต้คำสั่งเดียวได้",
+          "ฉันรู้ขอบเขตว่างานใดควรมี human approval ก่อนนำไปใช้จริง",
+          "ฉันสามารถกำหนด checkpoint หรือเงื่อนไขควบคุมเมื่อให้ AI ทำงานแทนมากขึ้น"
+        ]
+      },
+      {
+        key: "collab",
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+        title: "มิติ 4: Collaboration Model",
+        short: "Collaboration",
+        questions: [
+          "ฉันใช้ AI เป็นผู้ช่วยส่วนตัวในงานของตนเองอย่างสม่ำเสมอ",
+          "ฉันสามารถใช้ AI หลายบทบาทในงานเดียวกัน เช่น analyst, writer, reviewer",
+          "ฉันสามารถออกแบบลำดับการทำงานระหว่างคนกับ AI ได้อย่างชัดเจน",
+          "ฉันมีประสบการณ์ใช้ agent หรือ workflow ที่ AI ทำหน้าที่เฉพาะด้าน",
+          "ฉันเข้าใจการทำงานแบบ multi-agent หรือ agent-to-agent ในระดับที่นำไปใช้ต่อได้"
+        ]
+      },
+      {
+        key: "governance",
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+        title: "มิติ 5: Governance, Quality & Trust",
+        short: "Quality & Trust",
+        questions: [
+          "ฉันตรวจสอบความถูกต้องของผลลัพธ์จาก AI ก่อนนำไปใช้งานเสมอ",
+          "ฉันรู้ข้อจำกัด ความเสี่ยง และโอกาสผิดพลาดของ AI ในงานของตนเอง",
+          "ฉันหลีกเลี่ยงการใส่ข้อมูลลับหรือข้อมูลอ่อนไหวลงใน AI โดยไม่จำเป็น",
+          "ฉันมีเกณฑ์วัดคุณภาพของ output จาก AI เช่น ความครบถ้วน ความถูกต้อง และความเหมาะสม",
+          "ฉันสามารถอธิบายได้ว่าเมื่อใดควรเชื่อ AI เมื่อใดควร escalate หรือให้มนุษย์ตัดสินใจ"
+        ]
+      }
+    ];
+
+    const totalQuestions = dimensions.reduce((acc, dim) => acc + dim.questions.length, 0);
+
+    function todayString() {
+      const now = new Date();
+      return now.toLocaleString("th-TH", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+
+    document.getElementById("evalDate").value = todayString();
+
+    // Toast Notification System
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+      
+      const icon = type === "success" 
+        ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+        : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+        
+      toast.innerHTML = `${icon} <span>${message}</span>`;
+      container.appendChild(toast);
+      
+      // Trigger reflow to animate
+      setTimeout(() => toast.classList.add("show"), 10);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    function updateProgress() {
+      const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+      const percentage = (answered / totalQuestions) * 100;
+      
+      document.getElementById('progressText').textContent = `${answered}/${totalQuestions}`;
+      document.getElementById('progressFill').style.width = `${percentage}%`;
+      
+      // Also remove error class if newly checked
+      document.querySelectorAll('.q').forEach(q => {
+        if (q.querySelector('input:checked')) {
+          q.classList.remove('error');
+        }
+      });
+    }
+
+    function renderForm() {
+      const form = document.getElementById("assessmentForm");
+      let html = "";
+      let questionNo = 1;
+
+      dimensions.forEach((dim) => {
+        html += `
+          <section class="card">
+            <div class="dim-title">
+              <h2 style="color: var(--primary);">${dim.icon} ${dim.title}</h2>
+            </div>
+            <p class="muted" style="font-size: 14px; margin-bottom: 20px;">ประเมินตนเองตามการใช้งานจริงในช่วง 3 เดือนที่ผ่านมา</p>
+        `;
+
+        dim.questions.forEach((q, qIndex) => {
+          const name = `${dim.key}_${qIndex}`;
+          html += `
+            <div class="q" id="q_${name}">
+              <div class="q-title"><span style="color:var(--text-tertiary)">${questionNo}.</span> ${q}</div>
+              <div class="scale">
+                ${[1,2,3,4,5].map(score => `
+                  <label>
+                    <input type="radio" name="${name}" value="${score}" onchange="updateProgress()">
+                    <span>${score}</span>
+                  </label>
+                `).join("")}
+              </div>
+            </div>
+          `;
+          questionNo++;
+        });
+
+        html += `</section>`;
+      });
+
+      form.innerHTML = html;
+    }
+
+    renderForm();
+
+    function getAllAnswers() {
+      const answers = {};
+      let complete = true;
+      let firstUnanswered = null;
+
+      // Reset all errors
+      document.querySelectorAll('.q').forEach(q => q.classList.remove('error'));
+
+      dimensions.forEach(dim => {
+        answers[dim.key] = [];
+        dim.questions.forEach((_, qIndex) => {
+          const name = `${dim.key}_${qIndex}`;
+          const selected = document.querySelector(`input[name="${name}"]:checked`);
+          
+          if (!selected) {
+            complete = false;
+            const qElement = document.getElementById(`q_${name}`);
+            qElement.classList.add('error');
+            if (!firstUnanswered) firstUnanswered = qElement;
+          }
+          answers[dim.key].push(selected ? Number(selected.value) : null);
+        });
+      });
+
+      return { answers, complete, firstUnanswered };
+    }
+
+    function getMaturity(avg) {
+      if (avg <= 1.8) return "Level 1: Basic AI Use";
+      if (avg <= 2.6) return "Level 2: Prompt-Enabled";
+      if (avg <= 3.4) return "Level 3: Structured Workflow";
+      if (avg <= 4.2) return "Level 4: Agentic Co-pilot";
+      return "Level 5: Autonomous Collaborator";
+    }
+
+    function dimAdvice(key, score) {
+      const advice = {
+        prompt: {
+          low: "ควรเริ่มจากการฝึกเขียน prompt แบบมีโครงสร้าง เช่น ระบุบทบาท (Role) เป้าหมาย (Task) บริบท (Context) และรูปแบบผลลัพธ์ (Format) ให้ชัดเจน",
+          mid: "ควรสร้าง Prompt Template ส่วนตัวที่ใช้ซ้ำได้ในงานประจำ เช่น แบบฟอร์มสรุปการประชุม วิเคราะห์ข้อมูลเบื้องต้น หรือร่างอีเมล",
+          high: "พร้อมต่อยอดสู่การสร้าง Prompt Library ของทีม, Reusable Playbooks และแบ่งปันเทคนิคให้เพื่อนร่วมงาน"
+        },
+        tools: {
+          low: "ควรเริ่มอัปโหลดไฟล์ เอกสารอ้างอิง หรือข้อมูลที่ใช้จริงในงานประกอบคำสั่ง เพื่อให้ AI เข้าใจบริบทและลดการตอบผิด (Hallucination)",
+          mid: "ควรลองออกแบบ Workflow ที่เชื่อมโยง AI เข้ากับเครื่องมืออื่น เช่น นำข้อมูลจาก Spreadsheet มาให้ AI วิเคราะห์ แล้วให้ร่างเป็น Docs",
+          high: "พร้อมต่อยอดไปสู่ระบบ Automation (เช่น Make, Zapier), API Integration และ Workflow แบบ End-to-End"
+        },
+        autonomy: {
+          low: "ควรเริ่มทดลองมอบหมายงานย่อยๆ ให้ AI ทำแทน เช่น ให้ AI ช่วยร่างโครงร่าง (Outline) หรือสรุปประเด็น ก่อนที่เราจะลงมือเขียนจริง",
+          mid: "ควรกำหนดขอบเขตงานที่ AI สามารถรันได้เอง พร้อมตั้งจุดตรวจสอบ (Checkpoint) เพื่อให้มนุษย์อนุมัติ (Human-in-the-loop) ก่อนนำไปใช้",
+          high: "พร้อมพัฒนาไปสู่ Agentic Execution ที่ให้ AI ทำงานซับซ้อนหลายขั้นตอนต่อเนื่องกัน ภายใต้ Guardrails ที่รัดกุม"
+        },
+        collab: {
+          low: "ลองเปลี่ยนมุมมองจากการใช้ AI แค่ 'ค้นหาข้อมูล' เป็นการจำลองบทบาท เช่น ให้ AI เป็น 'ผู้ตรวจทานจดหมาย' หรือ 'ลูกค้าที่กำลังมีปัญหา'",
+          mid: "ควรเริ่มออกแบบลำดับงาน (SOP) ที่ระบุชัดเจนว่า ขั้นตอนใดมนุษย์ทำ ขั้นตอนใด AI ทำ และใครเป็นผู้ตัดสินใจสุดท้าย",
+          high: "พร้อมต่อยอดสู่ Multi-agent Use Cases ที่ให้ AI หลายตัวทำงานประสานกัน (เช่น ตัวหนึ่งเขียน อีกตัวหนึ่งตรวจ)"
+        },
+        governance: {
+          low: "สิ่งสำคัญที่สุดคือต้องสร้างพฤติกรรม 'ตรวจสอบก่อนใช้เสมอ' ไม่ควรเชื่อผลลัพธ์ AI 100% และไม่ใส่ข้อมูลส่วนบุคคล/ความลับบริษัทลงในแชทสาธารณะ",
+          mid: "ควรกำหนด Checklist สำหรับประเมินคุณภาพงานที่สร้างโดย AI เช่น ความถูกต้องของข้อเท็จจริง โทนภาษา และอคติที่อาจเกิดขึ้น",
+          high: "เหมาะสมที่จะเป็น AI Champion ของทีม เพื่อร่างมาตรฐานจริยธรรม (Responsible AI) และวิธีปฏิบัติที่ดีที่สุดระดับองค์กร"
+        }
+      };
+
+      if (score < 3) return advice[key].low;
+      if (score < 4) return advice[key].mid;
+      return advice[key].high;
+    }
+
+    function calculateReport() {
+      const { answers, complete, firstUnanswered } = getAllAnswers();
+      
+      if (!complete) {
+        showToast("กรุณาตอบคำถามที่ไฮไลต์สีแดงให้ครบถ้วน", "error");
+        if (firstUnanswered) {
+          firstUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      const fullName = document.getElementById("fullName").value || "ผู้ประเมิน";
+      const department = document.getElementById("department").value || "-";
+      const role = document.getElementById("role").value || "-";
+      const evalDate = document.getElementById("evalDate").value || todayString();
+
+      const dimScores = dimensions.map(dim => {
+        const arr = answers[dim.key];
+        const sum = arr.reduce((a,b) => a+b, 0);
+        const avg = sum / arr.length;
+        return {
+          key: dim.key,
+          title: dim.title,
+          short: dim.short,
+          sum,
+          avg
+        };
+      });
+
+      const totalScore = dimScores.reduce((a,d)=>a+d.sum, 0);
+      const avgScore = totalScore / 25;
+      const maturity = getMaturity(avgScore);
+
+      const strengths = dimScores.filter(d => d.avg >= 4);
+      const gaps = dimScores.filter(d => d.avg < 3.5).sort((a,b)=>a.avg-b.avg);
+
+      const reportSection = document.getElementById("reportSection");
+      reportSection.style.display = "block";
+      
+      document.getElementById("reportIntro").innerHTML = 
+        `รายงานสำหรับ: <span style="color:var(--text-primary); font-weight:700;">${fullName}</span> &nbsp;|&nbsp; บทบาท: <span style="color:var(--text-primary); font-weight:700;">${role} (${department})</span> &nbsp;|&nbsp; วันที่: <span style="color:var(--text-primary)">${evalDate}</span>`;
+      
+      document.getElementById("totalScore").textContent = `${totalScore} / 125`;
+      document.getElementById("avgScore").innerHTML = `${avgScore.toFixed(2)} <span style="font-size: 16px; color: var(--text-tertiary); font-weight: 500;">/ 5</span>`;
+      document.getElementById("maturityLevel").textContent = maturity;
+
+      const bars = document.getElementById("dimensionBars");
+      bars.innerHTML = dimScores.map(d => `
+        <div class="bar-wrap">
+          <div class="bar-head">
+            <span>${d.short}</span>
+            <span style="color:var(--primary); font-weight:700;">${d.avg.toFixed(2)} <span style="font-weight:400; color:var(--text-secondary); font-size:12px;">(${d.sum}/25)</span></span>
+          </div>
+          <div class="bar"><div style="width: 0%" data-width="${(d.avg/5)*100}%"></div></div>
+        </div>
+      `).join("");
+
+      // Animate bars
+      setTimeout(() => {
+        document.querySelectorAll('.bar > div').forEach(el => {
+          el.style.width = el.getAttribute('data-width');
+        });
+      }, 100);
+
+      const strengthsEl = document.getElementById("strengths");
+      strengthsEl.innerHTML = strengths.length
+        ? strengths.map(s => `<span class="pill good"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> ${s.short} (${s.avg.toFixed(2)})</span>`).join("")
+        : `<span class="pill warn">ยังไม่มีมิติที่โดดเด่นถึงเกณฑ์ 4.0</span>`;
+
+      const gapsEl = document.getElementById("gaps");
+      gapsEl.innerHTML = gaps.length
+        ? gaps.map(g => `<span class="pill bad"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> ${g.short} (${g.avg.toFixed(2)})</span>`).join("")
+        : `<span class="pill good"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> ผ่านเกณฑ์ 3.5 ในทุกมิติ</span>`;
+
+      const recsEl = document.getElementById("recommendations");
+      recsEl.innerHTML = dimScores.map(d => `
+        <div class="rec-item">
+          <strong>${d.short}:</strong> ${dimAdvice(d.key, d.avg)}
+        </div>
+      `).join("");
+
+      const summary = `สรุปผลการประเมิน Human-AI Collaboration
+
+ข้อมูลผู้ประเมิน:
+- ชื่อ: ${fullName}
+- หน่วยงาน: ${department}
+- บทบาท: ${role}
+- วันที่ประเมิน: ${evalDate}
+
+ภาพรวมคะแนน:
+- คะแนนรวม: ${totalScore} / 125
+- คะแนนเฉลี่ย: ${avgScore.toFixed(2)} / 5
+- ระดับความพร้อม: ${maturity}
+
+คะแนนรายมิติ:
+- Prompt Engineering: ${dimScores.find(d=>d.key==="prompt").avg.toFixed(2)}
+- Workflow Integration: ${dimScores.find(d=>d.key==="tools").avg.toFixed(2)}
+- Delegation & Autonomy: ${dimScores.find(d=>d.key==="autonomy").avg.toFixed(2)}
+- Collaboration Model: ${dimScores.find(d=>d.key==="collab").avg.toFixed(2)}
+- Quality & Trust: ${dimScores.find(d=>d.key==="governance").avg.toFixed(2)}
+
+จุดแข็งที่ควรทำต่อไป:
+${strengths.length ? strengths.map(s => `- ${s.short}`).join("\n") : "- (อยู่ระหว่างการพัฒนาศักยภาพให้ถึงเกณฑ์ความเชี่ยวชาญ)"}
+
+มิติที่ควรให้ความสำคัญในการพัฒนา:
+${gaps.length ? gaps.map(g => `- ${g.short}`).join("\n") : "- (บริหารจัดการได้ดีและมีความสมดุลในทุกมิติ)"}`;
+
+      document.getElementById("summaryText").value = summary;
+      
+      showToast("ประมวลผลสำเร็จ เลื่อนลงเพื่อดูรายงาน", "success");
+      
+      // Smooth scroll to report
+      setTimeout(() => {
+        reportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+
+    function saveLocal() {
+      const payload = {
+        fullName: document.getElementById("fullName").value,
+        department: document.getElementById("department").value,
+        role: document.getElementById("role").value,
+        evalDate: document.getElementById("evalDate").value,
+      };
+
+      dimensions.forEach(dim => {
+        dim.questions.forEach((_, qIndex) => {
+          const name = `${dim.key}_${qIndex}`;
+          const selected = document.querySelector(`input[name="${name}"]:checked`);
+          payload[name] = selected ? selected.value : "";
+        });
+      });
+
+      localStorage.setItem("hai_self_eval_v3", JSON.stringify(payload));
+      showToast("บันทึกแบบร่างเรียบร้อยแล้ว", "success");
+    }
+
+    function loadLocal() {
+      const raw = localStorage.getItem("hai_self_eval_v3");
+      if (!raw) {
+        showToast("ไม่พบข้อมูลแบบร่างที่บันทึกไว้", "error");
+        return;
+      }
+      const data = JSON.parse(raw);
+
+      document.getElementById("fullName").value = data.fullName || "";
+      document.getElementById("department").value = data.department || "";
+      document.getElementById("role").value = data.role || "";
+
+      dimensions.forEach(dim => {
+        dim.questions.forEach((_, qIndex) => {
+          const name = `${dim.key}_${qIndex}`;
+          const value = data[name];
+          if (value) {
+            const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
+            if (input) input.checked = true;
+          }
+        });
+      });
+
+      updateProgress();
+      showToast("โหลดข้อมูลล่าสุดเรียบร้อยแล้ว", "success");
+    }
+
+    function resetForm() {
+      if (!confirm("ท่านต้องการล้างคำตอบและข้อมูลทั้งหมดใช่หรือไม่? (การกระทำนี้ไม่สามารถย้อนกลับได้)")) return;
+      document.getElementById("fullName").value = "";
+      document.getElementById("department").value = "";
+      document.getElementById("role").value = "";
+      document.getElementById("evalDate").value = todayString();
+
+      document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+      
+      const reportSection = document.getElementById("reportSection");
+      reportSection.style.display = "none";
+      localStorage.removeItem("hai_self_eval_v3");
+      
+      updateProgress();
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast("ล้างข้อมูลทั้งหมดเรียบร้อยแล้ว", "success");
+    }
+  </script>
+</body>
+</html>
